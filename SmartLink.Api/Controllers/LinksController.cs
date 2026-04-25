@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SmartLink.Domain;
 namespace SmartLink.Api.Controllers;
 
 [ApiController]
@@ -7,7 +8,7 @@ public class LinksController : ControllerBase
 {
     public static readonly UrlShortenerService _service = new();
     
-    [HttpPost]
+    [HttpPost("shorten")]
     public IActionResult Shorten([FromBody] string url)
     {
         try 
