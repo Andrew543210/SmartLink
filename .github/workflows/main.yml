@@ -1,0 +1,46 @@
+﻿name: SmartLink CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      # Налаштування .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      
+      # Налаштування Node.js для фронтенду
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      # Збірка фронтенду (Vite)
+      - name: Install Frontend dependencies
+        run: |
+          cd smartlink-client
+          npm install
+          npm run build
+      
+      # Збірка та тестування бекенду
+      - name: Restore Backend dependencies
+        run: dotnet restore SmartLink.sln
+
+      - name: Build Backend
+        run: dotnet build SmartLink.sln --no-restore --configuration Release
+
+      - name: Run Unit Tests
+        run: dotnet test SmartLink.Tests/SmartLink.Tests.csproj --no-build --verbosity normal
