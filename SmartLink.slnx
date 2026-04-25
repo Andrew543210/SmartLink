@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SmartLink.Api/SmartLink.Api.csproj" />
+  <Project Path="SmartLink.Domain/SmartLink.Domain.csproj" />
+  <Project Path="SmartLink.Tests/SmartLink.Tests.csproj" />
+</Solution>
